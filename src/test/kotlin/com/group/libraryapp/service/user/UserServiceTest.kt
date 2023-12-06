@@ -82,8 +82,9 @@ class UserServiceTest @Autowired constructor(
         userService.deleteUser("A")
 
         // Then
-        val result = userRepository.findAll()[0]
-        assertThat(result.name).isEqualTo("B")
+        assertThat(userRepository.findAll().filter{
+            user -> user.id.equals(saveUser.id)
+        }).isEmpty()
 
     }
 }
