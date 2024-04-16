@@ -1,0 +1,20 @@
+package com.group.libraryapp.domin.book
+
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+
+@Entity
+class Book constructor(
+    val name: String,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+) {
+    init {
+        check (name.isBlank()) {
+            throw IllegalArgumentException("이름은 비어 있을 수 없습니다")
+        }
+    }
+}

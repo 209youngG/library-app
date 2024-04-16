@@ -1,10 +1,10 @@
 package com.group.libraryapp.service.book;
 
-import com.group.libraryapp.domain.book.Book;
 import com.group.libraryapp.domain.book.BookRepository;
-import com.group.libraryapp.domain.user.User;
 import com.group.libraryapp.domain.user.UserRepository;
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository;
+import com.group.libraryapp.domin.book.Book;
+import com.group.libraryapp.domin.user.User;
 import com.group.libraryapp.dto.book.request.BookLoanRequest;
 import com.group.libraryapp.dto.book.request.BookRequest;
 import com.group.libraryapp.dto.book.request.BookReturnRequest;
@@ -30,7 +30,7 @@ public class BookService {
 
   @Transactional
   public void saveBook(BookRequest request) {
-    Book newBook = new Book(request.getName());
+    Book newBook = new Book(request.getName(), null);
     bookRepository.save(newBook);
   }
 

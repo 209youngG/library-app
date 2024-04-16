@@ -1,7 +1,7 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.domin.user.User
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
@@ -62,7 +62,7 @@ class UserServiceTest @Autowired constructor(
     fun updateUserNameTest() {
         // Given
         val saveUser = userRepository.save(User("A", 20))
-        val userUpdateRequest = UserUpdateRequest(saveUser.id, "B")
+        val userUpdateRequest = UserUpdateRequest(saveUser.id!!, "B")
 
         // When
         userService.updateUserName(userUpdateRequest)
@@ -83,7 +83,7 @@ class UserServiceTest @Autowired constructor(
 
         // Then
         assertThat(userRepository.findAll().filter{
-            user -> user.id.equals(saveUser.id)
+            user -> user.id!!.equals(saveUser.id)
         }).isEmpty()
 
     }

@@ -1,11 +1,11 @@
 package com.group.libraryapp.service.book
 
-import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
+import com.group.libraryapp.domin.book.Book
+import com.group.libraryapp.domin.user.User
+import com.group.libraryapp.domin.user.loanhistory.UserLoanHistory
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
@@ -70,7 +70,13 @@ class BookServiceTest @Autowired constructor(
         // Given
         bookRepository.save(Book("Spring Boot"))
         val savedUser = userRepository.save(User("이영균", null))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "Spring Boot", false))
+        userLoanHistoryRepository.save(
+            UserLoanHistory(
+                savedUser,
+                "Spring Boot",
+                false
+            )
+        )
         val bookLoanRequest = BookLoanRequest("이영균", "Spring Boot")
 
         // When & Then
@@ -86,7 +92,13 @@ class BookServiceTest @Autowired constructor(
         // Given
         bookRepository.save(Book("Spring Boot"))
         val savedUser = userRepository.save(User("이영균", null))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "Spring Boot", false))
+        userLoanHistoryRepository.save(
+            UserLoanHistory(
+                savedUser,
+                "Spring Boot",
+                false
+            )
+        )
         val bookReturnRequest = BookReturnRequest("이영균", "Spring Boot")
 
         // When
