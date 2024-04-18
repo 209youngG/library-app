@@ -4,6 +4,7 @@ import com.group.libraryapp.domin.book.Book
 import com.group.libraryapp.domin.book.BookRepository
 import com.group.libraryapp.domin.user.UserRepository
 import com.group.libraryapp.domin.user.loanhistory.UserLoanHistoryRepository
+import com.group.libraryapp.domin.user.loanhistory.UserLoanStatus
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
@@ -19,7 +20,7 @@ class BookService(
 ) {
     @Transactional
     fun saveBook(request: BookRequest) {
-        val newBook = Book(request.name, null)
+        val newBook = Book(request.name, request.type)
         bookRepository.save(newBook)
     }
 
@@ -27,9 +28,9 @@ class BookService(
     fun loanBook(request: BookLoanRequest) {
         val book = bookRepository.findByName(request.bookName) ?: fail()
         require(
-            userLoanHistoryRepository.findByBookNameAndIsReturn(
+            userLoanHistoryRepository.findByBookNameAndStatus(
                 request.bookName,
-                false
+                UserLoanStatus.LOANED
             ) == null
         ) {
             throw IllegalArgumentException("진작 대출되어 있는 책입니다")
