@@ -19,8 +19,10 @@ class User constructor(
 ) {
 
     init {
-        check (name.isBlank()) {
-            throw IllegalArgumentException("이름은 비어 있을 수 없습니다")
+        when {
+            name.isBlank() -> {
+                throw IllegalArgumentException("이름은 비어 있을 수 없습니다")
+            }
         }
     }
 

@@ -2,9 +2,14 @@ plugins {
     id 'org.springframework.boot' version '2.6.8'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+//    코틀린은 여러 환경에서 동작하는 멀티플랫폼 언어이다. 이 플러그인은 코틀린이 jvm 프로젝트임을 명시하는 플러그인
     id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+//    JPA 사용시 argument가 없는 자바 기본생성자가 필요한 경우가 있다. 이 플러그인은 @Entity, @MappedSupperclass, @Embeddable 어노테이션 사용시 자동으로 기본생성자를 만들어주는 플러그인
     id 'org.jetbrains.kotlin.plugin.jpa' version '1.6.21'
+//    특정 어노테이션 선언되는 all-open 클래스로 만들어주는 플러그인(하기 allOpen에다가 기입)
     id "org.jetbrains.kotlin.plugin.allopen" version "1.6.21"
+//    스프링에서 사용하는 특정 어노테이션 사용시 all-open 클래스로 만들어주는 플러그인
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
 }
 
 // plugins, dependencies와 같은 Level (즉 build.gradle 최상단)
