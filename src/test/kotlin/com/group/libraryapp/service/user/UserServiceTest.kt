@@ -2,6 +2,9 @@ package com.group.libraryapp.service.user
 
 import com.group.libraryapp.domin.user.User
 import com.group.libraryapp.domin.user.UserRepository
+import com.group.libraryapp.domin.user.loanhistory.UserLoanHistory
+import com.group.libraryapp.domin.user.loanhistory.UserLoanHistoryRepository
+import com.group.libraryapp.domin.user.loanhistory.UserLoanStatus
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.service.UserService
@@ -15,7 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class UserServiceTest @Autowired constructor(
     @Autowired private val userRepository: UserRepository,
-    @Autowired private val userService: UserService
+    @Autowired private val userService: UserService,
+    @Autowired private val userLoanHistoryRepository: UserLoanHistoryRepository,
 ) {
     @AfterEach
     fun tearDown() {
@@ -87,5 +91,48 @@ class UserServiceTest @Autowired constructor(
             user -> user.id!!.equals(saveUser.id)
         }).isEmpty()
 
+    }
+
+    @Test
+    @DisplayName("대툴 기록이 없는 유저도 응답에 포함된다")
+    fun getUserLoanHistoriesTest1() {
+        // Given
+        userRepository.save(User("A", null))
+
+        // When
+        val results = userService.getUserLoanHistories()
+
+        // Then
+        assertThat(results).hasSize(1)
+        assertThat(results[0].name).isEqualTo("A")
+        assertThat(results[0].books).isEmpty()
+    }
+
+    @Test
+    @DisplayName("대툴 기록이 않은 유저도 응답이 정상 동작")
+    fun getUserLoanHistoriesTest2() {
+        // Given
+        val saveUser = userRepository.save(User("A", null))
+        userLoanHistoryRepository.saveAll(
+            listOf(
+                UserLoanHistory.fixture(saveUser, "책1", UserLoanStatus.LOANED),
+                UserLoanHistory.fixture(saveUser, "책2", UserLoanStatus.LOANED),
+                UserLoanHistory.fixture(saveUser, "책3", UserLoanStatus.RETURNED),
+                UserLoanHistory.fixture(saveUser, "책4", UserLoanStatus.LOANED),
+
+                )
+        )
+
+        // When
+        val results = userService.getUserLoanHistories()
+
+        // Then
+        assertThat(results).hasSize(1)
+        assertThat(results[0].name).isEqualTo("A")
+        assertThat(results[0].books).hasSize(4)
+        assertThat(results[0].books).extracting("name")
+            .containsExactlyInAnyOrder("책1", "책2", "책3", "책4")
+        assertThat(results[0].books).extracting("isReturn")
+            .containsExactlyInAnyOrder(false, false, true, false)
     }
 }
