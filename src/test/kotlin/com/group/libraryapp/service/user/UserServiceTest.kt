@@ -10,6 +10,7 @@ import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.service.UserService
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +22,14 @@ class UserServiceTest @Autowired constructor(
     @Autowired private val userService: UserService,
     @Autowired private val userLoanHistoryRepository: UserLoanHistoryRepository,
 ) {
+    @BeforeEach
+    fun setUp() {
+        println("--------------시작--------------")
+    }
+
     @AfterEach
     fun tearDown() {
+        println("--------------종료--------------")
         userRepository.deleteAll()
     }
 
