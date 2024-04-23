@@ -10,6 +10,8 @@ plugins {
     id "org.jetbrains.kotlin.plugin.allopen" version "1.6.21"
 //    스프링에서 사용하는 특정 어노테이션 사용시 all-open 클래스로 만들어주는 플러그인
     id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
+//    querydsl 추가를 위해 Kotlin에서 Annotation처리하는 플러그인 추가
+    id "org.jetbrains.kotlin.kapt" version "1.6.21"
 }
 
 // plugins, dependencies와 같은 Level (즉 build.gradle 최상단)
@@ -33,6 +35,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
+
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     runtimeOnly 'com.h2database:h2'
 
